@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Ng'anjo OS — Installer Launcher
+# Creator: Nehemiah Ng'anjo
+
+export DISPLAY="${DISPLAY:-:0}"
+export WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-wayland-0}"
+
+if ! command -v calamares &>/dev/null; then
+    # Show error dialog if calamares missing
+    if command -v zenity &>/dev/null; then
+        zenity --error --title="Installer Not Found" \
+            --text="Calamares installer is not installed.\n\nConnect to internet and run:\n  yay -S calamares" \
+            --width=400
+    else
+        gnome-terminal -- bash -c '
+            echo ""
+            echo "  Calamares installer not found."
+            echo "  Connect to internet and run: yay -S calamares"
+            echo ""
+            read -p "  Press Enter to close..."
+        '
+    fi
+    exit 1
+fi
+
+# Launch Calamares with privilege escalation
+if [[ $EUID -eq 0 ]]; then
+    exec calamares
+elif command -v pkexec &>/dev/null; then
+    exec pkexec --disable-internal-agent calamares
+else
+    exec sudo -E calamares
+fi

@@ -1,0 +1,133 @@
+#!/usr/bin/env bash
+# Ng'anjo OS — Post-Install Setup Script
+# Creator: Nehemiah Ng'anjo
+# Run this after first boot into your installed system
+
+set -euo pipefail
+
+TEAL='\033[38;2;0;210;180m'
+GOLD='\033[38;2;255;209;102m'
+WHITE='\033[38;2;230;237;245m'
+GREEN='\033[38;2;6;214;160m'
+RED='\033[38;2;255;77;109m'
+GRAY='\033[38;2;100;110;130m'
+RESET='\033[0m'
+BOLD='\033[1m'
+
+if [[ $EUID -ne 0 ]]; then
+    echo -e "\n  ${RED}Please run as root: sudo nganjo-setup${RESET}\n"
+    exit 1
+fi
+
+clear
+echo -e "${TEAL}${BOLD}"
+cat << 'EOF'
+   ╔══════════════════════════════════════════════════════════╗
+   ║       Ng'anjo OS — Post-Install Setup                   ║
+   ║       Creator: Nehemiah Ng'anjo                         ║
+   ╚══════════════════════════════════════════════════════════╝
+EOF
+echo -e "${RESET}"
+
+log()  { echo -e "  ${TEAL}[✓]${RESET} $1"; }
+warn() { echo -e "  ${GOLD}[!]${RESET} $1"; }
+err()  { echo -e "  ${RED}[✗]${RESET} $1"; }
+step() { echo -e "\n  ${BOLD}${WHITE}── $1 ──${RESET}\n"; }
+
+# ── Step 1: System Update ──────────────────────────────────────────────────────
+step "1/8 — Updating system packages"
+pacman -Syu --noconfirm && log "System updated successfully." || err "Update failed."
+
+# ── Step 2: Install yay (AUR helper) ──────────────────────────────────────────
+step "2/8 — Installing yay AUR helper"
+if ! command -v yay &>/dev/null; then
+    cd /tmp
+    pacman -S --needed --noconfirm git base-devel
+    sudo -u "${SUDO_USER:-nobody}" bash -c '
+        git clone https://aur.archlinux.org/yay.git /tmp/yay-build
+        cd /tmp/yay-build
+        makepkg -si --noconfirm
+    ' && log "yay installed." || warn "yay install failed — you can install it manually."
+    rm -rf /tmp/yay-build
+else
+    log "yay already installed."
+fi
+
+# ── Step 3: Enable Security Services ──────────────────────────────────────────
+step "3/8 — Enabling security services"
+systemctl enable --now ufw
+ufw default deny incoming
+ufw default allow outgoing
+ufw enable
+log "UFW firewall enabled (deny incoming, allow outgoing)."
+
+systemctl enable apparmor
+log "AppArmor enabled."
+
+# ── Step 4: Optimize Mirrors ───────────────────────────────────────────────────
+step "4/8 — Optimizing pacman mirrors"
+if command -v reflector &>/dev/null; then
+    reflector \
+        --country "Germany,France,United States,United Kingdom" \
+        --age 12 \
+        --protocol https \
+        --sort rate \
+        --fastest 10 \
+        --save /etc/pacman.d/mirrorlist && log "Mirrors optimized." || warn "Mirror optimization failed."
+else
+    warn "reflector not installed — skipping mirror optimization."
+fi
+
+# ── Step 5: Enable Flatpak ────────────────────────────────────────────────────
+step "5/8 — Enabling Flatpak + Flathub"
+if command -v flatpak &>/dev/null; then
+    flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+    log "Flathub repository added."
+else
+    pacman -S --noconfirm flatpak
+    flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+    log "Flatpak installed and Flathub added."
+fi
+
+# ── Step 6: Install AUR extras ────────────────────────────────────────────────
+step "6/8 — Installing AUR extras (run as your user after setup)"
+warn "AUR packages must be installed as your normal user. After setup, run:"
+echo -e "  ${GRAY}  yay -S bibata-cursor-theme-bin papirus-icon-theme adw-gtk3${RESET}"
+echo -e "  ${GRAY}  yay -S gnome-shell-extension-dash-to-dock${RESET}"
+echo -e "  ${GRAY}  yay -S gnome-shell-extension-blur-my-shell${RESET}"
+
+# ── Step 7: Developer Toolchain ───────────────────────────────────────────────
+step "7/8 — Setting up developer toolchain"
+# Rust
+if ! command -v rustup &>/dev/null; then
+    sudo -u "${SUDO_USER:-$USER}" bash -c \
+        'curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path' \
+        && log "Rust toolchain installed." || warn "Rust install failed."
+fi
+
+# NVM hint
+echo -e "  ${GRAY}  For Node version management, install NVM as your user:${RESET}"
+echo -e "  ${GRAY}  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash${RESET}"
+
+# ── Step 8: Timeshift Snapshots ───────────────────────────────────────────────
+step "8/8 — Configuring Timeshift btrfs snapshots"
+if command -v timeshift &>/dev/null; then
+    timeshift --setup btrfs --snapshot-count 5 2>/dev/null && \
+        log "Timeshift configured for btrfs snapshots." || \
+        warn "Timeshift setup needs manual configuration."
+else
+    warn "Timeshift not installed. Install with: sudo pacman -S timeshift"
+fi
+
+# ── Done ──────────────────────────────────────────────────────────────────────
+echo ""
+echo -e "  ${TEAL}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}"
+echo -e "  ${GREEN}${BOLD}Ng'anjo OS setup complete!${RESET}"
+echo -e "  ${GRAY}Creator: Nehemiah Ng'anjo  │  nganjo-os.org${RESET}"
+echo -e "  ${TEAL}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}"
+echo ""
+echo -e "  Recommended next steps:"
+echo -e "  ${TEAL}  • Reboot your system${RESET}"
+echo -e "  ${TEAL}  • Log into GNOME and run nganjo-welcome${RESET}"
+echo -e "  ${TEAL}  • Install AUR extras with yay${RESET}"
+echo ""

@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=Nganjo
+Description=Ng'anjo OS Boot Animation
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/nganjo
+ScriptFile=/usr/share/plymouth/themes/nganjo/nganjo.script

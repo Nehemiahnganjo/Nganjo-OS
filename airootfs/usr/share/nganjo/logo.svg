@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <style>
+      .hex-bg   { fill: #141926; stroke: #00D2B4; stroke-width: 4; }
+      .hex-inner{ fill: none;    stroke: #00D2B4; stroke-width: 1.5; opacity: 0.18; }
+      .n-stroke { fill: none;    stroke: #00D2B4; stroke-width: 15;
+                  stroke-linecap: square; stroke-linejoin: miter; }
+      .cursor   { fill: #FFD166; }
+    </style>
+  </defs>
+
+  <!-- Hexagon background -->
+  <polygon class="hex-bg"
+    points="100,10 182,55 182,145 100,190 18,145 18,55"/>
+
+  <!-- Inner hex ring -->
+  <polygon class="hex-inner"
+    points="100,26 166,63 166,137 100,174 34,137 34,63"/>
+
+  <!-- N letterform — square caps, sharp diagonal -->
+  <polyline class="n-stroke" points="56,148 56,52 100,120 144,52 144,148"/>
+
+  <!-- Gold terminal cursor underscore -->
+  <rect class="cursor" x="144" y="154" width="18" height="9" rx="0"/>
+</svg>

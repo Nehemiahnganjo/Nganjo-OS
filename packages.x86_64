@@ -1,0 +1,176 @@
+# Ng'anjo OS — Package List (Lite)
+# Creator: Nehemiah Ng'anjo
+
+# ── BASE SYSTEM ────────────────────────────────────────────────────────────────
+base
+base-devel
+linux
+linux-firmware
+systemd
+systemd-sysvcompat
+dbus
+polkit
+sudo
+mkinitcpio
+mkinitcpio-archiso
+archiso
+
+# ── MICROCODE ──────────────────────────────────────────────────────────────────
+amd-ucode
+intel-ucode
+terminus-font
+
+# ── BOOT & FILESYSTEM ──────────────────────────────────────────────────────────
+grub
+efibootmgr
+os-prober
+memtest86+
+memtest86+-efi
+btrfs-progs
+e2fsprogs
+ntfs-3g
+exfatprogs
+xfsprogs
+f2fs-tools
+lvm2
+cryptsetup
+dosfstools
+parted
+gptfdisk
+
+# ── NETWORKING ─────────────────────────────────────────────────────────────────
+networkmanager
+network-manager-applet
+wpa_supplicant
+iwd
+dhcpcd
+nss-mdns
+openssh
+curl
+wget
+avahi
+iproute2
+iputils
+
+# ── DISPLAY & GRAPHICS ─────────────────────────────────────────────────────────
+mesa
+mesa-utils
+libva-mesa-driver
+vulkan-icd-loader
+vulkan-intel
+vulkan-radeon
+libva-intel-driver
+xf86-video-amdgpu
+xf86-video-nouveau
+xf86-video-vesa
+xf86-input-libinput
+
+# ── WAYLAND ────────────────────────────────────────────────────────────────────
+wayland
+wayland-utils
+xorg-xwayland
+qt5-wayland
+qt6-wayland
+
+# ── POLKIT / AUTH ──────────────────────────────────────────────────────────────
+polkit-gnome
+libsecret
+gnome-online-accounts
+power-profiles-daemon
+geoclue
+
+# ── DESKTOP (GNOME — minimal core only) ───────────────────────────────────────
+gdm
+gnome-shell
+gnome-session
+gnome-control-center
+gnome-settings-daemon
+gnome-keyring
+gnome-shell-extensions
+xdg-desktop-portal-gnome
+xdg-user-dirs
+xdg-user-dirs-gtk
+gvfs
+gvfs-smb
+gvfs-mtp
+nautilus
+gnome-terminal
+# gnome-backgrounds removed — using custom Ng'anjo wallpaper only
+
+# ── GTK ────────────────────────────────────────────────────────────────────────
+gtk3
+gtk4
+
+# ── FONTS ──────────────────────────────────────────────────────────────────────
+ttf-jetbrains-mono
+ttf-dejavu
+noto-fonts
+noto-fonts-emoji
+ttf-font-awesome
+
+# ── AUDIO ──────────────────────────────────────────────────────────────────────
+pipewire
+pipewire-alsa
+pipewire-pulse
+wireplumber
+alsa-utils
+
+# ── BLUETOOTH ──────────────────────────────────────────────────────────────────
+bluez
+bluez-utils
+
+# ── SECURITY ───────────────────────────────────────────────────────────────────
+ufw
+apparmor
+gnupg
+
+# ── PERFORMANCE ────────────────────────────────────────────────────────────────
+zram-generator
+
+# ── BOOT ANIMATION ─────────────────────────────────────────────────────────────
+plymouth
+plymouth-kcm
+
+# ── TERMINAL & SHELL ───────────────────────────────────────────────────────────
+zsh
+zsh-completions
+zsh-autosuggestions
+zsh-syntax-highlighting
+bash-completion
+fastfetch
+dialog
+less
+fzf
+bat
+eza
+htop
+btop
+tree
+ripgrep
+fd
+tmux
+rsync
+unzip
+zip
+p7zip
+man-db
+man-pages
+lsof
+which
+file
+diffutils
+
+# ── UTILITIES ──────────────────────────────────────────────────────────────────
+git
+flatpak
+reflector
+pacman-contrib
+archlinux-keyring
+zenity
+
+# ── BROWSER ────────────────────────────────────────────────────────────────────
+firefox
+# brave-bin installed via AUR in setup_chroot.sh — firefox is the fallback
+
+# ── INSTALLER ──────────────────────────────────────────────────────────────────
+# calamares is AUR-only — installed via setup_chroot.sh at build time

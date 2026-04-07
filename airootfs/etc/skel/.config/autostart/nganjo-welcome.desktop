@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Ng'anjo Welcome
+Exec=gnome-terminal -- bash -c "nganjo-welcome; exec bash"
+Icon=nganjo-welcome
+Terminal=false
+X-GNOME-Autostart-enabled=true
+X-GNOME-Autostart-Delay=2
+OnlyShowIn=GNOME;

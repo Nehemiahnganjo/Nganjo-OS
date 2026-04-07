@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Install Ng'anjo OS
+GenericName=OS Installer
+Comment=Install Ng'anjo OS to your disk
+Exec=gnome-terminal --title='Ng'\''anjo OS Installer' -- bash -c 'nganjo-welcome; exec bash'
+Icon=nganjo-installer
+Terminal=false
+Categories=System;
+StartupNotify=true
+Keywords=install;disk;setup;nganjo;

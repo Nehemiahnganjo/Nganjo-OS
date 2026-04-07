@@ -1,0 +1,8 @@
+/* Ng'anjo OS — Allow live user to run Calamares without password */
+polkit.addRule(function(action, subject) {
+    if (action.id == "org.freedesktop.policykit.exec" &&
+        action.lookup("program") == "/usr/bin/calamares" &&
+        subject.isInGroup("wheel")) {
+        return polkit.Result.YES;
+    }
+});

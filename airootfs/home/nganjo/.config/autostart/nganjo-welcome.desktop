@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Ng'anjo Welcome
+Exec=bash -c "sleep 3 && gnome-terminal --title='Welcome to Ng'\''anjo OS' -- bash -c 'nganjo-welcome; echo; echo \"  Type nganjo-welcome to relaunch.\"; exec bash'"
+Icon=nganjo-welcome
+Terminal=false
+X-GNOME-Autostart-enabled=true
+X-GNOME-Autostart-Delay=3
+OnlyShowIn=GNOME;

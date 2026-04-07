@@ -1,68 +1,54 @@
 # Build Guide
 
-## Prerequisites
+## what you need
 
-- Arch Linux host (or Arch-based distro)
-- Root access
-- Internet connection (for AUR packages during build)
+- arch linux machine (or arch based)
+- internet connection
+- root access
 
-## Install Build Dependencies
+## install deps
 
 ```bash
-sudo pacman -S archiso squashfs-tools libisoburn dosfstools mtools
+sudo pacman -S archiso
 ```
 
-## Build the ISO
+## building
 
 ```bash
-# Standard build
 sudo bash scripts/build.sh
+```
 
-# Clean previous work/ directory first
+if you want a clean build (removes old work/ folder first):
+
+```bash
 sudo bash scripts/build.sh --clean
+```
 
-# Build and auto-test in QEMU
+to build and auto test in qemu:
+
+```bash
 sudo bash scripts/build.sh --test
 ```
 
-## Build Steps (what the script does)
+## what happens during build
 
-| Step | Action |
-|------|--------|
-| 1 | Check build dependencies |
-| 2 | Clean previous artifacts |
-| 3 | Verify airootfs overlay |
-| 4 | Apply branding (hostname, build date) |
-| 5 | Pre-compile dconf database |
-| 6 | Install chroot customization hook |
-| 7 | Run mkarchiso |
-| 8 | Generate SHA256 checksum |
-| 9 | Report output path and size |
+1. checks deps
+2. cleans old stuff
+3. verifies airootfs
+4. stamps build date
+5. compiles dconf
+6. sets up chroot hook
+7. runs mkarchiso (this is the long part)
+8. generates sha256 checksum
+9. prints output path
 
-## Chroot Phase (network required)
+the chroot phase needs internet to install aur packages like calamares, papirus icons, bibata cursor etc. if theres no internet it skips those and the iso still boots but the graphical installer wont be there.
 
-During `mkarchiso`, the script runs `scripts/setup_chroot.sh` inside the chroot which:
+## output
 
-- Generates locales and sets timezone
-- Enables systemd services
-- Creates the live user `nganjo`
-- Installs `yay` AUR helper
-- Builds and installs Calamares installer
-- Installs AUR packages: `papirus-icon-theme`, `bibata-cursor-theme-bin`, `adw-gtk3`, GNOME extensions
-- Sets Plymouth boot theme
-
-> If no network is available, AUR packages are skipped. The ISO will still boot but the graphical installer may be missing.
-
-## Output
-
-```
-out/
-├── nganjo-os-1.0-lite-YYYY.MM.DD-x86_64.iso
-└── nganjo-os-1.0-lite-YYYY.MM.DD-x86_64.iso.sha256
-```
-
-## Verify Checksum
+iso ends up in `out/` folder. theres also a .sha256 file next to it.
 
 ```bash
+# verify it
 sha256sum -c out/nganjo-os-*.iso.sha256
 ```

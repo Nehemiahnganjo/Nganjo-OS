@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Ng'anjo Setup
+GenericName=Post-Install Setup
+Comment=Finish setting up your Ng'anjo OS installation
+Exec=pkexec nganjo-setup
+Icon=nganjo-setup-kde
+Terminal=false
+Categories=System;Settings;
+StartupNotify=true
+Keywords=setup;configure;nganjo;postinstall;

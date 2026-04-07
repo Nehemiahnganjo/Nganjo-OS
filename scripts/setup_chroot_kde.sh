@@ -56,6 +56,37 @@ EOF
 log "Setting Plymouth theme..."
 plymouth-set-default-theme -R nganjo 2>/dev/null || true
 
+# ── KDE desktop file swap ─────────────────────────────────────────────────────
+log "Swapping desktop files and icons for KDE..."
+
+# Desktop shortcuts
+cp /home/nganjo/Desktop/terminal.kde.desktop /home/nganjo/Desktop/terminal.desktop
+cp /home/nganjo/Desktop/files.kde.desktop    /home/nganjo/Desktop/files.desktop
+rm -f /home/nganjo/Desktop/*.kde.desktop
+
+# Autostart
+cp /home/nganjo/.config/autostart/nganjo-welcome.kde.desktop \
+   /home/nganjo/.config/autostart/nganjo-welcome.desktop
+rm -f /home/nganjo/.config/autostart/*.kde.desktop
+
+# App .desktop files
+cp /usr/share/applications/nganjo-installer.kde.desktop /usr/share/applications/nganjo-installer.desktop
+cp /usr/share/applications/nganjo-welcome.kde.desktop   /usr/share/applications/nganjo-welcome.desktop
+cp /usr/share/applications/nganjo-setup.kde.desktop     /usr/share/applications/nganjo-setup.desktop
+rm -f /usr/share/applications/*.kde.desktop
+
+# KDE SVG icons → active icon names
+for tool in installer welcome setup; do
+    cp /usr/share/icons/hicolor/256x256/apps/nganjo-${tool}-kde.svg \
+       /usr/share/icons/hicolor/scalable/apps/nganjo-${tool}.svg 2>/dev/null || \
+    { mkdir -p /usr/share/icons/hicolor/scalable/apps && \
+      cp /usr/share/icons/hicolor/256x256/apps/nganjo-${tool}-kde.svg \
+         /usr/share/icons/hicolor/scalable/apps/nganjo-${tool}.svg; }
+done
+
+chown -R nganjo:nganjo /home/nganjo
+gtk-update-icon-cache /usr/share/icons/hicolor 2>/dev/null || true
+
 # ── Calamares — swap services config for KDE (sddm instead of gdm) ───────────
 log "Patching Calamares services config for KDE..."
 cat > /etc/calamares/modules/services-systemd.conf << 'EOF'

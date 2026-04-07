@@ -1,118 +1,73 @@
-# Ng'anjo OS — Installation Guide
-**Creator: Nehemiah Ng'anjo**
+# Install Guide
 
----
+## Boot the ISO
 
-## Before You Begin
-
-- Back up any important data
-- Ensure your system meets the minimum requirements (1 GB RAM, 20 GB disk)
-- Download the ISO and write it to a USB drive
-
----
-
-## Minimum System Requirements
-
-| Component | Minimum | Recommended |
-|---|---|---|
-| CPU | x86_64, 1 GHz | Dual-core 2 GHz+ |
-| RAM | 1 GB | 4 GB |
-| Disk | 20 GB | 40 GB |
-| GPU | Any VGA-compatible | Intel/AMD/NVIDIA |
-| Boot | BIOS or UEFI | UEFI |
-
----
-
-## Boot from USB
-
-1. Insert the USB drive
-2. Restart your computer
-3. Enter BIOS/UEFI (usually F2, F12, Del, or Esc)
-4. Set USB as the first boot device
-5. Save and reboot
-
-You will be greeted by the **Ng'anjo OS boot menu**.
-
----
-
-## Live Session
-
-After booting, the Ng'anjo OS live session starts automatically with the GNOME desktop.
-
-**Live credentials:**
-- Username: `nganjo`
-- Password: `nganjo`
-
-You can try the full system before installing anything.
-
----
-
-## Graphical Installation (Calamares)
-
-1. Click **Install Ng'anjo OS** on the desktop, or run:
+1. Write the ISO to a USB drive:
    ```bash
-   nganjo-installer
+   sudo dd bs=4M if=out/nganjo-os-*.iso of=/dev/sdX status=progress oflag=sync
    ```
-2. Select your **language**
-3. Set your **timezone** and **locale**
-4. Choose your **keyboard layout**
-5. **Partition** your disk:
-   - **Erase disk** (recommended for new installs) — automatic btrfs layout
-   - **Alongside existing OS** — dual boot
-   - **Manual** — full control
-6. Create your **user account**
-7. Review the **summary** and click **Install**
-8. Reboot when complete
+2. Boot from USB (ensure UEFI mode is enabled in BIOS)
+3. The live session will auto-login as user `nganjo`
 
----
+## Graphical Install (Calamares)
 
-## Partition Layout (Auto)
+1. Click **Install Ng'anjo OS** on the desktop or run `nganjo-installer`
+2. Follow the steps:
+   - Language & locale
+   - Keyboard layout
+   - Disk partitioning (auto or manual)
+   - User account creation
+   - Summary → Install
+3. Reboot when prompted
 
-| Mount | Filesystem | Size |
-|---|---|---|
-| `/boot/efi` | FAT32 | 512 MB |
-| `[swap]` | swap | 4 GB (or RAM size) |
-| `/` | btrfs | Remaining disk |
+## Post-Install Setup
 
-**Btrfs subvolumes created automatically:**
-```
-@           → /
-@home       → /home
-@var        → /var
-@snapshots  → /.snapshots
-@cache      → /var/cache
-@log        → /var/log
-```
+On first boot, run:
 
----
-
-## After Installation
-
-On first login, run the post-install setup:
 ```bash
 sudo nganjo-setup
 ```
 
 This will:
 - Update all packages
-- Install the `yay` AUR helper
-- Enable the UFW firewall and AppArmor
+- Install `yay` AUR helper
+- Enable UFW firewall (deny incoming, allow outgoing)
+- Enable AppArmor
 - Optimize pacman mirrors with reflector
-- Add the Flathub Flatpak repository
-- Set up developer toolchain helpers
-- Configure Timeshift btrfs snapshots
+- Add Flathub repository
 
----
+## Default Credentials (Live Session)
 
-## Dual Boot with Windows
+| User | Password |
+|------|----------|
+| `nganjo` | `nganjo` |
+| `root` | `nganjo` |
 
-1. In the Calamares partitioner, choose **Alongside**
-2. Ng'anjo OS will detect Windows automatically
-3. GRUB will show both options at boot
+> These credentials are removed after installation. You set your own password during the Calamares install.
 
-> **Tip:** Disable Fast Startup in Windows before dual-booting to avoid filesystem conflicts.
+## Partitioning Recommendations
 
----
+| Partition | Size | Filesystem |
+|-----------|------|------------|
+| EFI | 512 MB | FAT32 |
+| `/` | 20 GB+ | ext4 / btrfs |
+| swap | RAM size | zram (auto) |
 
-*Ng'anjo OS — Runs on any hardware.*
-*Creator: Nehemiah Ng'anjo*
+> zram swap is configured automatically — no swap partition needed.
+
+## Troubleshooting
+
+**Black screen on boot:**  
+Add `nomodeset` to kernel parameters (use the VM boot entry in GRUB).
+
+**Calamares not found:**  
+Connect to internet and run:
+```bash
+yay -S calamares
+```
+
+**No sound:**  
+PipeWire should auto-start. If not:
+```bash
+systemctl --user enable --now pipewire pipewire-pulse wireplumber
+```

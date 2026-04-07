@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Files
+Comment=Browse and manage files
+Exec=dolphin
+Icon=system-file-manager
+Terminal=false
+Categories=System;FileManager;
+StartupNotify=true

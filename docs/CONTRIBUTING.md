@@ -1,46 +1,46 @@
-# Contributing to Ng'anjo OS
-**Creator: Nehemiah Ng'anjo**
+# Contributing
 
-Thank you for your interest in contributing to Ng'anjo OS!
+## Getting Started
 
----
+1. Fork the repository on GitHub
+2. Clone your fork:
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/nganjo-os.git
+   cd nganjo-os
+   ```
+3. Create a branch:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
 
-## How to Contribute
+## What You Can Contribute
 
-1. **Fork** the repository
-2. Create a **feature branch**: `git checkout -b feature/my-improvement`
-3. **Commit** your changes: `git commit -m "feat: describe your change"`
-4. **Push** to your fork: `git push origin feature/my-improvement`
-5. Open a **Pull Request**
-
----
-
-## Areas to Contribute
-
-- Package selection improvements (`packages.x86_64`)
-- GNOME theming and branding assets
-- Hardware compatibility testing
+- Bug fixes in build or chroot scripts
+- New packages in `packages.x86_64`
+- Improved Calamares module configs in `airootfs/etc/calamares/`
+- Performance tuning improvements
 - Documentation improvements
-- Calamares installer configuration
-- Security hardening
+- Branding assets (wallpapers, icons, Plymouth themes)
 
----
+## Guidelines
 
-## Commit Style
+- Test your changes by building the ISO: `sudo bash scripts/build.sh --clean`
+- Keep commits focused — one change per commit
+- Use clear commit messages: `fix: ...`, `feat: ...`, `docs: ...`
+- Do not commit build artifacts (`work/`, `out/`, `*.iso`)
 
-Use conventional commits:
-- `feat:` — new feature
-- `fix:` — bug fix
-- `docs:` — documentation
-- `style:` — formatting, no logic change
-- `chore:` — maintenance
+## Submitting a Pull Request
 
----
+1. Push your branch to your fork
+2. Open a Pull Request against `main`
+3. Describe what you changed and why
 
-## Code of Conduct
+## Reporting Issues
 
-Be respectful, constructive, and inclusive.
+Open an issue at: https://github.com/Nehemiahnganjo/nganjo-os/issues
 
----
-
-*Ng'anjo OS — Creator: Nehemiah Ng'anjo*
+Include:
+- What you expected to happen
+- What actually happened
+- Steps to reproduce
+- Host OS and hardware info

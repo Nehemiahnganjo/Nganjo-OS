@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Install Ng'anjo OS
+GenericName=OS Installer
+Comment=Install Ng'anjo OS to your disk
+Exec=konsole --title 'Ng'\''anjo OS Installer' -e bash -c 'nganjo-welcome; exec bash'
+Icon=nganjo-installer-kde
+Terminal=false
+Categories=System;
+StartupNotify=true
+Keywords=install;disk;setup;nganjo;

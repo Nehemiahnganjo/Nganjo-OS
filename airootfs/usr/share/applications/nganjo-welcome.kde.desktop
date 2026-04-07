@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Ng'anjo Welcome
+GenericName=Welcome Screen
+Comment=Welcome to Ng'anjo OS
+Exec=konsole --title 'Welcome to Ng'\''anjo OS' -e bash -c 'nganjo-welcome; exec bash'
+Icon=nganjo-welcome-kde
+Terminal=false
+Categories=System;
+StartupNotify=true
+Keywords=welcome;nganjo;live;

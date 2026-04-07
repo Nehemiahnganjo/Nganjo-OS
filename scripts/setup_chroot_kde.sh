@@ -75,14 +75,7 @@ cp /usr/share/applications/nganjo-welcome.kde.desktop   /usr/share/applications/
 cp /usr/share/applications/nganjo-setup.kde.desktop     /usr/share/applications/nganjo-setup.desktop
 rm -f /usr/share/applications/*.kde.desktop
 
-# KDE SVG icons → active icon names
-for tool in installer welcome setup; do
-    cp /usr/share/icons/hicolor/256x256/apps/nganjo-${tool}-kde.svg \
-       /usr/share/icons/hicolor/scalable/apps/nganjo-${tool}.svg 2>/dev/null || \
-    { mkdir -p /usr/share/icons/hicolor/scalable/apps && \
-      cp /usr/share/icons/hicolor/256x256/apps/nganjo-${tool}-kde.svg \
-         /usr/share/icons/hicolor/scalable/apps/nganjo-${tool}.svg; }
-done
+# KDE uses the same PNG icons as GNOME — no swap needed
 
 chown -R nganjo:nganjo /home/nganjo
 gtk-update-icon-cache /usr/share/icons/hicolor 2>/dev/null || true

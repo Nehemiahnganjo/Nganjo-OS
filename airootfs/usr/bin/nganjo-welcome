@@ -101,7 +101,9 @@ do_terminal() {
     echo ""
     echo -e "   ${TEAL}Opening terminal...${RESET}"
     echo ""
-    if command -v gnome-terminal &>/dev/null; then
+    if command -v konsole &>/dev/null; then
+        konsole &
+    elif command -v gnome-terminal &>/dev/null; then
         gnome-terminal &
     elif command -v xterm &>/dev/null; then
         xterm &

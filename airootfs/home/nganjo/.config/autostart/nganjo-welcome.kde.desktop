@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Ng'anjo Welcome
+Exec=bash -c "sleep 3 && konsole --title 'Welcome to Ng'\''anjo OS' -e bash -c 'nganjo-welcome; echo; echo \"  Type nganjo-welcome to relaunch.\"; exec bash'"
+Icon=nganjo-welcome
+Terminal=false
+X-KDE-autostart-enabled=true
+X-KDE-autostart-phase=2

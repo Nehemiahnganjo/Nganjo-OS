@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <!-- KDE-style setup icon: teal circle + wrench + KDE gear -->
+  <circle cx="128" cy="128" r="120" fill="#00D2B4" opacity="0.15"/>
+  <circle cx="128" cy="128" r="120" fill="none" stroke="#00D2B4" stroke-width="8"/>
+  <!-- wrench -->
+  <path d="M80 176 L140 116 A30 30 0 0 0 116 80 L130 94 L116 108 L102 94 A30 30 0 0 0 80 176Z" fill="#00D2B4"/>
+  <rect x="138" y="114" width="22" height="60" rx="6" transform="rotate(45 149 144)" fill="#00D2B4"/>
+  <!-- gear -->
+  <circle cx="182" cy="80" r="26" fill="none" stroke="#FFD166" stroke-width="8"/>
+  <circle cx="182" cy="80" r="10" fill="#FFD166"/>
+  <line x1="182" y1="48" x2="182" y2="56" stroke="#FFD166" stroke-width="8" stroke-linecap="round"/>
+  <line x1="182" y1="104" x2="182" y2="112" stroke="#FFD166" stroke-width="8" stroke-linecap="round"/>
+  <line x1="150" y1="80" x2="158" y2="80" stroke="#FFD166" stroke-width="8" stroke-linecap="round"/>
+  <line x1="206" y1="80" x2="214" y2="80" stroke="#FFD166" stroke-width="8" stroke-linecap="round"/>
+</svg>

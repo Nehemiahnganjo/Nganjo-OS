@@ -2,19 +2,28 @@
 
 **Version:** 1.0 Lite — "Arise"  
 **By:** Nehemiah Ng'anjo  
-**Base:** Arch Linux | GNOME on Wayland | x86_64
+**Base:** Arch Linux | x86_64
+
+---
+
+## Editions
+
+| Edition | Desktop | Status |
+|---------|---------|--------|
+| **Ng'anjo OS GNOME** | GNOME on Wayland | ✅ Available |
+| **Ng'anjo OS KDE** | KDE Plasma on Wayland | 🔧 In Development |
 
 ---
 
 ## What is this?
 
-its my own linux distro built on arch. runs gnome on wayland, has a custom installer and works on most hardware out of the box. still in early stages but its functional.
+its my own linux distro built on arch. two editions — gnome and kde plasma, both on wayland. has a custom installer and works on most hardware out of the box. still in early stages but its functional.
 
 ---
 
 ## Features
 
-- gnome on wayland (clean, no bloat)
+- gnome on wayland (clean, no bloat) — **or** kde plasma on wayland
 - calamares installer (graphical)
 - zsh with autosuggestions + syntax highlighting + fzf
 - pipewire audio

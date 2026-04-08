@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Ng'anjo OS — KDE Edition Chroot Customization Script
+# Ng'anjo OS — GNOME Edition Chroot Customization Script (default)
 # Creator: Nehemiah Ng'anjo
+# NOTE: This file is overwritten at build time by build.sh (setup_chroot.sh or setup_chroot_kde.sh)
 
 TEAL='\033[38;2;0;210;180m'
 RESET='\033[0m'

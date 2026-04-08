@@ -41,14 +41,22 @@ pacman -Syu --noconfirm && log "System updated successfully." || err "Update fai
 # ── Step 2: Install yay (AUR helper) ──────────────────────────────────────────
 step "2/8 — Installing yay AUR helper"
 if ! command -v yay &>/dev/null; then
-    cd /tmp
-    pacman -S --needed --noconfirm git base-devel
-    sudo -u "${SUDO_USER:-nobody}" bash -c '
-        git clone https://aur.archlinux.org/yay.git /tmp/yay-build
-        cd /tmp/yay-build
-        makepkg -si --noconfirm
-    ' && log "yay installed." || warn "yay install failed — you can install it manually."
-    rm -rf /tmp/yay-build
+    # Resolve the real user: prefer SUDO_USER, fall back to first UID>=1000 account
+    AUR_USER="${SUDO_USER:-}"
+    if [[ -z "$AUR_USER" || "$AUR_USER" == "root" || "$AUR_USER" == "nobody" ]]; then
+        AUR_USER=$(awk -F: '$3 >= 1000 && $3 < 65534 {print $1; exit}' /etc/passwd)
+    fi
+    if [[ -z "$AUR_USER" ]]; then
+        warn "Cannot determine a non-root user to build yay. Run: sudo -u <youruser> yay -S yay"
+    else
+        pacman -S --needed --noconfirm git base-devel
+        sudo -u "$AUR_USER" bash -c '
+            git clone https://aur.archlinux.org/yay.git /tmp/yay-build
+            cd /tmp/yay-build
+            makepkg -si --noconfirm
+        ' && log "yay installed." || warn "yay install failed — install manually as your user."
+        rm -rf /tmp/yay-build
+    fi
 else
     log "yay already installed."
 fi
@@ -110,11 +118,18 @@ echo -e "  ${GRAY}  For Node version management, install NVM as your user:${RESE
 echo -e "  ${GRAY}  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash${RESET}"
 
 # ── Step 8: Timeshift Snapshots ───────────────────────────────────────────────
-step "8/8 — Configuring Timeshift btrfs snapshots"
+step "8/8 — Configuring Timeshift snapshots"
 if command -v timeshift &>/dev/null; then
-    timeshift --setup btrfs --snapshot-count 5 2>/dev/null && \
-        log "Timeshift configured for btrfs snapshots." || \
-        warn "Timeshift setup needs manual configuration."
+    ROOT_FS=$(findmnt -n -o FSTYPE / 2>/dev/null || echo "unknown")
+    if [[ "$ROOT_FS" == "btrfs" ]]; then
+        timeshift --setup btrfs --snapshot-count 5 2>/dev/null && \
+            log "Timeshift configured for btrfs snapshots." || \
+            warn "Timeshift setup needs manual configuration."
+    else
+        timeshift --setup rsync --snapshot-count 5 2>/dev/null && \
+            log "Timeshift configured for rsync snapshots (${ROOT_FS} filesystem)." || \
+            warn "Timeshift setup needs manual configuration."
+    fi
 else
     warn "Timeshift not installed. Install with: sudo pacman -S timeshift"
 fi

@@ -34,6 +34,7 @@ file_permissions=(
     ["/home/nganjo/.config/autostart/nganjo-welcome.desktop"]="1000:1000:644"
     ["/usr/bin/nganjo-welcome"]="0:0:755"
     ["/usr/bin/nganjo-installer"]="0:0:755"
+    ["/usr/bin/nganjo-install"]="0:0:755"
     ["/usr/bin/nganjo-setup"]="0:0:755"
     ["/usr/bin/nganjo-post-install"]="0:0:755"
     ["/usr/share/nganjo"]="0:0:755"

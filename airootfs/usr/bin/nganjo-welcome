@@ -60,29 +60,15 @@ do_install() {
     echo -e "   ${TEAL}${BOLD}Launching Ng'anjo OS Installer...${RESET}"
     echo ""
 
-    if ! command -v calamares &>/dev/null; then
-        echo -e "   ${RED}Calamares installer not found.${RESET}"
-        echo -e "   ${GRAY}Connect to internet and run: yay -S calamares${RESET}"
-        echo ""
-        echo -ne "   Press Enter to return to menu... "
-        read -r
-        return
-    fi
-
-    # Launch Calamares GUI in background
-    if [[ $EUID -eq 0 ]]; then
-        calamares &>/dev/null &
-    elif command -v pkexec &>/dev/null; then
-        pkexec --disable-internal-agent calamares &>/dev/null &
+    if command -v konsole &>/dev/null; then
+        konsole --title "Ng'anjo OS Installer" -e bash -c "sudo nganjo-install; exec bash" &
+    elif command -v gnome-terminal &>/dev/null; then
+        gnome-terminal --title="Ng'anjo OS Installer" -- bash -c "sudo nganjo-install; exec bash" &
     else
-        sudo -E calamares &>/dev/null &
+        sudo nganjo-install
     fi
 
-    echo -e "   ${GREEN}Calamares installer launched!${RESET}"
-    echo -e "   ${GRAY}Follow the graphical steps to install Ng'anjo OS.${RESET}"
-    echo ""
-    echo -ne "   Press Enter to return to menu... "
-    read -r
+    sleep 1
 }
 
 do_live() {

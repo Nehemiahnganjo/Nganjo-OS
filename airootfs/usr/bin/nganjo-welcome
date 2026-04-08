@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Ng'anjo OS — Welcome / TUI launcher
+# Launches the Rust TUI. Falls back to a plain terminal if no GUI is available.
+exec nganjo-tui

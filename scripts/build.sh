@@ -119,6 +119,12 @@ if [[ "$EDITION" == "kde" ]]; then
     CHROOT_HOOK="${PROFILE_DIR}/airootfs/root/customize_airootfs.sh"
     cp "${SCRIPT_DIR}/setup_chroot_kde.sh" "$CHROOT_HOOK"
     ISO_NAME="nganjo-os-kde-1.0-lite-${ISO_DATE}-x86_64.iso"
+elif [[ "$EDITION" == "tui" ]]; then
+    log "Edition: TUI (terminal-only, no desktop)"
+    cp "${PROFILE_DIR}/packages.tui.x86_64" "${PROFILE_DIR}/packages.x86_64.build"
+    CHROOT_HOOK="${PROFILE_DIR}/airootfs/root/customize_airootfs.sh"
+    cp "${SCRIPT_DIR}/setup_chroot_tui.sh" "$CHROOT_HOOK"
+    ISO_NAME="nganjo-os-tui-1.0-lite-${ISO_DATE}-x86_64.iso"
 else
     log "Edition: GNOME (default)"
     cp "${PROFILE_DIR}/packages.x86_64" "${PROFILE_DIR}/packages.x86_64.build"

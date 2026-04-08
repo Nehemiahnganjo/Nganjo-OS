@@ -10,14 +10,21 @@ log() { echo -e "  ${TEAL}[post-install]${RESET} $1"; }
 rm -f /etc/sudoers.d/nganjo-live
 log "Removed live sudoers override."
 
-# ── Configure GDM auto-login for installed user ───────────────────────────────
-# Get the first non-system user (UID >= 1000)
+# ── Configure display manager auto-login for installed user ──────────────────
 INSTALL_USER=$(awk -F: '$3 >= 1000 && $3 < 65534 && $1 != "nganjo" {print $1; exit}' /etc/passwd 2>/dev/null)
-# Fall back to nganjo if no other user found yet (users module runs after)
 [[ -z "$INSTALL_USER" ]] && INSTALL_USER="nganjo"
 
-mkdir -p /etc/gdm
-cat > /etc/gdm/custom.conf << GDMCONF
+if command -v sddm &>/dev/null; then
+    mkdir -p /etc/sddm.conf.d
+    cat > /etc/sddm.conf.d/autologin.conf << SDDMCONF
+[Autologin]
+User=${INSTALL_USER}
+Session=plasmawayland
+SDDMCONF
+    log "SDDM auto-login set for user: ${INSTALL_USER}"
+else
+    mkdir -p /etc/gdm
+    cat > /etc/gdm/custom.conf << GDMCONF
 [daemon]
 AutomaticLoginEnable=True
 AutomaticLogin=${INSTALL_USER}
@@ -31,7 +38,8 @@ TimedLoginEnable=False
 
 [debug]
 GDMCONF
-log "GDM auto-login set for user: ${INSTALL_USER}"
+    log "GDM auto-login set for user: ${INSTALL_USER}"
+fi
 
 # ── Disable live-only services ────────────────────────────────────────────────
 systemctl disable nganjo-welcome.service 2>/dev/null || true

@@ -34,6 +34,7 @@ echo ""
 
 if [[ "$MODE" == "uefi" ]]; then
     OVMF="/usr/share/edk2/x64/OVMF.fd"
+    [[ ! -f "$OVMF" ]] && OVMF="/usr/share/edk2/x64/OVMF.4m.fd"
     [[ ! -f "$OVMF" ]] && OVMF="/usr/share/OVMF/OVMF_CODE.fd"
     [[ ! -f "$OVMF" ]] && { echo -e "${RED}OVMF firmware not found. Install: sudo pacman -S edk2-ovmf${RESET}"; exit 1; }
 

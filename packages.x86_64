@@ -1,5 +1,5 @@
-# Ng'anjo OS — TUI Edition Package List
-# Minimal: no X, no Wayland, no desktop environment
+# Ng'anjo OS — NeoDesktop Edition Package List
+# Minimal Wayland stack + egui runtime deps, no full DE
 # Creator: Nehemiah Ng'anjo
 
 # ── BASE ───────────────────────────────────────────────────────────────────────
@@ -50,42 +50,62 @@ curl
 wget
 iproute2
 iputils
+avahi
+nss-mdns
 
-# ── SHELL & TUI DEPS ───────────────────────────────────────────────────────────
+# ── DISPLAY — Wayland + egui/eframe runtime deps ──────────────────────────────
+wayland
+xorg-xwayland
+mesa
+libglvnd
+vulkan-icd-loader
+vulkan-intel
+vulkan-radeon
+libxkbcommon
+libxkbcommon-x11
+xkeyboard-config
+
+# ── DISPLAY MANAGER ────────────────────────────────────────────────────────────
+sddm
+
+# ── AUDIO ──────────────────────────────────────────────────────────────────────
+pipewire
+pipewire-alsa
+pipewire-pulse
+pipewire-audio
+wireplumber
+
+# ── BLUETOOTH ──────────────────────────────────────────────────────────────────
+bluez
+bluez-utils
+
+# ── FONTS ──────────────────────────────────────────────────────────────────────
+noto-fonts
+noto-fonts-emoji
+ttf-dejavu
+ttf-jetbrains-mono
+
+# ── SHELL & TOOLS ──────────────────────────────────────────────────────────────
 zsh
 zsh-autosuggestions
 zsh-syntax-highlighting
 zsh-completions
 fzf
-tmux
 git
 less
 man-db
-man-pages
-
-# ── SYSTEM TOOLS ───────────────────────────────────────────────────────────────
 htop
 btop
 fastfetch
 bat
 eza
-fd
-ripgrep
-tree
-lsof
 rsync
 unzip
 zip
-7zip
 ufw
 apparmor
 zram-generator
 reflector
-pacman-contrib
 flatpak
-
-# ── SECURITY ───────────────────────────────────────────────────────────────────
-polkit
-
-# ── PLYMOUTH (minimal boot animation) ─────────────────────────────────────────
+firefox
 plymouth

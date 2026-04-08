@@ -53,6 +53,7 @@ for arg in "$@"; do
         --test)  DO_TEST=true   ;;
         --kde)   EDITION="kde"  ;;
         --gnome) EDITION="gnome";;
+        --tui)   EDITION="tui"  ;;
     esac
 done
 

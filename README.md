@@ -1,4 +1,3 @@
-
 # Ng'anjo OS
 
 **Version:** 1.0 Lite — "Arise"  
@@ -13,58 +12,65 @@
 |---------|---------|--------|
 | **Ng'anjo OS GNOME** | GNOME on Wayland | ✅ Available |
 | **Ng'anjo OS KDE** | KDE Plasma on Wayland | 🔧 In Development |
+| **Ng'anjo OS Neo** | Rust/egui Desktop | 🔧 In Development |
+| **Ng'anjo OS TUI** | Terminal only, no DE | ✅ Available |
 
 ---
 
 ## What is this?
 
-its my own linux distro built on arch. two editions — gnome and kde plasma, both on wayland. has a custom installer and works on most hardware out of the box. still in early stages but its functional.
+A custom Linux distribution built on Arch. Ships in four editions — GNOME, KDE Plasma, NeoDesktop (Rust/egui), and TUI — all on Wayland. Includes a graphical Calamares installer and works on most x86_64 hardware out of the box.
 
 ---
 
 ## Features
 
-- gnome on wayland (clean, no bloat) — **or** kde plasma on wayland
-- calamares installer (graphical)
-- zsh with autosuggestions + syntax highlighting + fzf
-- pipewire audio
-- bluetooth works
-- zram swap (good for low ram machines)
-- plymouth boot animation
-- cpu governor + io scheduler tuning
-- firefox comes preinstalled, brave can be installed via aur
-- flatpak ready
+- GNOME or KDE Plasma on Wayland — clean, minimal, no bloat
+- Calamares graphical installer
+- Zsh with autosuggestions, syntax highlighting, and fzf
+- PipeWire audio stack
+- Bluetooth support out of the box
+- zram swap — better performance on low-RAM machines
+- Plymouth boot animation
+- CPU governor + I/O scheduler tuning
+- Firefox pre-installed, Flatpak ready
+- AppArmor + UFW enabled by default
 
 ---
 
 ## Requirements
 
-- 64bit cpu, at least 2 cores
-- 2gb ram minimum (4gb recommended)
-- 20gb disk space
-- UEFI boot (no legacy bios support)
+- 64-bit CPU, 2+ cores
+- 2 GB RAM minimum (4 GB recommended)
+- 20 GB disk space
+- UEFI firmware (no legacy BIOS support)
 
 ---
 
 ## How to Build
 
-you need an arch linux machine to build this
+Requires an Arch Linux host with `archiso` installed.
 
 ```bash
-# install archiso first
+# Install archiso
 sudo pacman -S archiso
 
-# then just run
+# Build default (GNOME) edition
 sudo bash scripts/build.sh
 
-# clean build
+# Build a specific edition
+sudo bash scripts/build.sh --kde
+sudo bash scripts/build.sh --tui
+sudo bash scripts/build.sh --neo
+
+# Clean build
 sudo bash scripts/build.sh --clean
 
-# build and test in qemu
+# Build and test in QEMU
 sudo bash scripts/build.sh --test
 ```
 
-iso goes to `out/` folder when done. takes like 20-45 mins depending on your internet
+ISO is written to `out/` when complete. Build time is approximately 20–45 minutes depending on hardware and network speed.
 
 ---
 
@@ -82,25 +88,25 @@ sudo bash scripts/test_iso.sh --uefi out/nganjo-os-*.iso
 sudo dd bs=4M if=out/nganjo-os-*.iso of=/dev/sdX status=progress oflag=sync
 ```
 
-change /dev/sdX to your actual usb drive. be careful not to wipe the wrong drive
+Replace `/dev/sdX` with your actual USB device. Verify the target device carefully before running.
 
 ---
 
-## After Installing
+## Post-Install Setup
 
-run this after first boot:
+Run after first boot:
 
 ```bash
 sudo nganjo-setup
 ```
 
-it will:
-- update packages
-- install yay
-- setup ufw firewall
-- enable apparmor
-- fix mirrors with reflector
-- add flathub
+This will:
+- Update all packages
+- Install yay (AUR helper)
+- Configure UFW firewall
+- Enable AppArmor
+- Refresh mirrors with reflector
+- Add Flathub remote
 
 ---
 
@@ -108,20 +114,24 @@ it will:
 
 ```
 nganjo-os/
-├── airootfs/       # all the os configs and scripts
-├── docs/           # docs
-├── efiboot/        # uefi boot stuff
-├── grub/           # grub config
-├── scripts/        # build and setup scripts
-├── syslinux/       # legacy boot (just in case)
-├── packages.x86_64 # package list
-├── pacman.conf     # pacman config for build
-└── profiledef.sh   # archiso profile
+├── airootfs/            # OS configs, scripts, and overlays
+├── docs/                # Build, install, and changelog docs
+├── efiboot/             # UEFI boot configuration
+├── grub/                # GRUB bootloader config
+├── scripts/             # Build, test, and setup scripts
+├── syslinux/            # Legacy BIOS boot (fallback)
+├── packages.x86_64      # GNOME edition package list
+├── packages.kde.x86_64  # KDE edition package list
+├── packages.neo.x86_64  # NeoDesktop edition package list
+├── packages.tui.x86_64  # TUI edition package list
+├── packages.x86_64.build# Active build list (auto-generated)
+├── pacman.conf          # pacman config for the build environment
+└── profiledef.sh        # archiso profile definition
 ```
 
 ---
 
-## Docs
+## Documentation
 
 - [Build Guide](docs/BUILD.md)
 - [Install Guide](docs/INSTALL.md)
@@ -132,39 +142,25 @@ nganjo-os/
 
 ## License
 
-GPL-2.0
-
----
-
-*built for those who arise.*
+MIT — see [LICENSE](LICENSE) for details.
 
 ---
 
 ## Support
 
-This is free and open-source software. Use it, fork it, ship it — no strings attached.
+Free and open-source. Use it, fork it, ship it.
 
-If it saved you time, made you money, or you just think it was a solid piece of work — a coffee goes a long way.
+If it saved you time or money, a coffee is appreciated.
 
 [![Support via PayPal](https://img.shields.io/badge/Support-PayPal-0070ba?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/Nextlinkmw)
 
-No pressure. But appreciated.
-
----
-
-## License
-
-MIT — free to use, modify, and distribute. See [LICENSE](LICENSE).
-
----
-
 <div align="center">
-
-**☕ If something I built saved you time or money — a tip is appreciated. No pressure.**
 
 [![$1 — Coffee](https://img.shields.io/badge/☕_$1-Coffee-0070ba?style=flat-square&logo=paypal&logoColor=white)](https://paypal.me/Nextlinkmw/1)
 [![$5 — Lunch](https://img.shields.io/badge/🍔_$5-Lunch-0070ba?style=flat-square&logo=paypal&logoColor=white)](https://paypal.me/Nextlinkmw/5)
 [![$10 — Fuel](https://img.shields.io/badge/⚡_$10-Fuel-0070ba?style=flat-square&logo=paypal&logoColor=white)](https://paypal.me/Nextlinkmw/10)
-[![$20 — You are the GOAT](https://img.shields.io/badge/🐐_$20-You_are_the_GOAT-0070ba?style=flat-square&logo=paypal&logoColor=white)](https://paypal.me/Nextlinkmw/20)
+[![$20 — You are the GOAT](https://img.shields.io/badge/🐐_$20-GOAT-0070ba?style=flat-square&logo=paypal&logoColor=white)](https://paypal.me/Nextlinkmw/20)
+
+*built for those who arise.*
 
 </div>

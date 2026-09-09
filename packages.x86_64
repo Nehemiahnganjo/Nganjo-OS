@@ -1,5 +1,5 @@
-# Ng'anjo OS — NeoDesktop Edition Package List
-# Minimal Wayland stack + egui runtime deps, no full DE
+# Ng'anjo OS — GNOME Edition Package List
+# GNOME on Wayland, Calamares installer, minimal bloat
 # Creator: Nehemiah Ng'anjo
 
 # ── BASE ───────────────────────────────────────────────────────────────────────
@@ -109,3 +109,4 @@ reflector
 flatpak
 firefox
 plymouth
+
